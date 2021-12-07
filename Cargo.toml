@@ -1,0 +1,13 @@
+[package]
+name = "outcrop"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+injrs = "0.1.2"
+native-windows-gui = "1.0.12"
+native-windows-derive = "1.0.3"
+simple_config_parser = "1.0.0"
+subprocess = "0.2.8"
