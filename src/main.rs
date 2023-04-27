@@ -51,11 +51,21 @@ impl Outcrop {
         let dll_list = injection::dll_map();
         let mut dlls: String = String::from(" ");
 
-        for (key, dll) in &dll_list {
-            dlls.push_str(&format!("{}: {}\n", key, dll));
-        }
+        match dll_list {
+            Ok(dll_list) => {
+                for (key, dll) in &dll_list {
+                    dlls.push_str(&format!("{}: {}\n", key, dll));
+                }
 
-        nwg::simple_message("Completed", &format!("{}", dlls));
+                nwg::simple_message("Completed", &format!("{}", dlls));
+            }
+            Err(_) => {
+                nwg::simple_message(
+                    "Error",
+                    "Could not find either 'plugins' folder or 'bedrock_server.exe",
+                );
+            }
+        };
     }
 
     fn exit_program(&self) {

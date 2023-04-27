@@ -47,7 +47,6 @@ pub mod injection {
         crate::{bds, files},
         injrs::{inject_windows::*, process_windows::*},
         std::collections::HashMap,
-        std::process::exit,
         std::thread,
         std::time,
     };
@@ -76,14 +75,14 @@ pub mod injection {
         }
     }
 
-    pub fn dll_map() -> HashMap<i32, String> {
+    pub fn dll_map() -> Result<HashMap<i32, String>, i32> {
         let dll_folder = String::from("./plugins");
-        let dll_paths = std::fs::read_dir(&dll_folder).unwrap();
 
         if !files::path_exists(&dll_folder) || !files::path_exists("./bedrock_server.exe") {
-            exit(-1);
+            return Err(-1);
         }
 
+        let dll_paths = std::fs::read_dir(&dll_folder).unwrap();
         let mut dll_number = 0;
         let mut dll_list: HashMap<i32, String> = HashMap::new();
 
@@ -96,7 +95,7 @@ pub mod injection {
             }
         }
 
-        dll_list
+        Ok(dll_list)
     }
 
     pub fn mod_inject(dll_name: &str) {
